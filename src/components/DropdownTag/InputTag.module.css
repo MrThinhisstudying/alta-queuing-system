@@ -1,0 +1,63 @@
+.tagDropDown {
+    position: relative;
+    display: inline-block;
+}
+
+.toggle {
+    cursor: pointer;
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    background: #fff;
+    border: 1.5px solid #d4d4d7;
+    border-radius: 8px;
+    /* max-width: 1104px; */
+    width: 1104px;
+    height: auto;
+    min-height: 44px;
+    max-height: 80px;
+    text-align: left;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    z-index: 200;
+}
+
+.toggle.open {
+    border: 1.5px solid #ffac6a;
+}
+
+.placeholder {
+    color: #a9a9b0;
+}
+
+.placeholder.selected {
+    color: #282739;
+}
+
+.tagContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 200;
+    background: #fff;
+    border-radius: 8px;
+    width: 1104px;
+}
+
+.option {
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background: #fff2e7;
+}

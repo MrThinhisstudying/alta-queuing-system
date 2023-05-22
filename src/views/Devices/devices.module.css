@@ -1,0 +1,119 @@
+:root {
+    --orange-text-color-500: #FF7506;
+}
+
+.container {
+    position: relative;
+}
+
+.container>h2 {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    color: var(--orange-text-color-500);
+}
+
+.table th {
+    text-align: left;
+}
+
+.table th:first-child {
+    width: 95px;
+}
+
+.table th:nth-child(2) {
+    width: 99px;
+}
+
+.table th:nth-child(3) {
+    width: 138px;
+}
+
+.table th:nth-child(4) {
+    width: 171px;
+}
+
+.table th:nth-child(5) {
+    width: 145px;
+}
+
+.table th:nth-child(6) {
+    width: 268px;
+}
+
+.top {
+    display: flex;
+    align-items: center;
+}
+
+.item {
+    margin-bottom: 16px;
+}
+
+.item:first-child {
+    margin-right: 24px;
+}
+
+.item:nth-child(2) {
+    margin-right: 188px;
+}
+
+.item>h2 {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #282739;
+    margin-bottom: 4px;
+    margin-left: 3px;
+}
+
+.btnCustom {
+    position: absolute;
+    right: 0;
+    top: 166px;
+}
+
+.pagination {
+    position: absolute;
+    right: 104px;
+    bottom: 20px;
+    top: 625px;
+}
+
+
+/* Add Devices */
+
+.wrapper {
+    position: absolute;
+    width: 1152px;
+    height: 550px;
+    background: #FFFFFF;
+    box-shadow: 2px 2px 8px rgba(232, 239, 244, 0.8);
+    border-radius: 16px;
+    padding: 16px 24px;
+}
+
+.wrapper>h3 {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 30px;
+    color: #FF7506;
+}
+
+.btnAdd {
+    position: absolute;
+    display: flex;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 200%);
+}
+
+.marginRight35 {
+    margin-right: 35px;
+}

@@ -1,0 +1,33 @@
+.search {
+    width: 300px;
+    height: 44px;
+    background: #FFFFFF;
+    /* Gray/$-gray-100 */
+    border: 1.5px solid #D4D4D7;
+    border-radius: 8px;
+    padding: 10px 16px 10px 12px;
+    outline: none;
+}
+
+.search.boder {
+    border: 1.5px solid #FFAC6A;
+}
+
+.search::placeholder {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #A9A9B0;
+}
+
+.btn {
+    position: relative;
+}
+
+.btn svg {
+    position: absolute;
+    right: 16px;
+    top: 12px;
+}

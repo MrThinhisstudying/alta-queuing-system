@@ -1,0 +1,37 @@
+* {
+    box-sizing: border-box;
+}
+
+.a {
+    text-decoration: none;
+}
+
+.button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 4px;
+    background: #FFF2E7;
+    box-shadow: 0px 0px 6px #E7E9F2;
+    border-radius: 8px 0px 0px 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.button-icon {}
+
+.button-text {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    text-align: center;
+    text-decoration-line: none;
+    color: #FF7506;
+    width: 71px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,54 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.pagination li {
+    cursor: pointer;
+    margin: 0 5px;
+    padding: 5px 11px;
+    border-radius: 4px;
+    background-color: transparent;
+    color: #7E7D88;
+    transition: background-color 0.3s, color 0.3s;
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.pagination li.active {
+    background-color: #FF7506;
+    color: #fff;
+}
+
+.pagination li:hover {
+    background-color: #FF7506;
+    color: #fff;
+}
+
+.pagination .prev-icon,
+.pagination .next-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.pagination .next-icon {
+    margin-right: -10px;
+    transform: rotate(180deg);
+}
+
+.pagination .next-icon {
+    margin-left: -10px;
+}
