@@ -20,6 +20,17 @@ const tagOptions = [
     'Khám tổng hợp tổng hợp',
     'Khám tổng hợp tổng hợp tổng hợp',
 ];
+
+interface Device {
+    code: string;
+    type: string;
+    name: string;
+    nameAccount: string;
+    ip: string;
+    password: string;
+    service: string;
+}
+
 function AddDevices() {
     //Xử lý tag
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -28,13 +39,26 @@ function AddDevices() {
             setSelectedTags([...selectedTags, tag]);
         }
     };
-
+    const [getInput, setGetInput] = useState<Device>({
+        code: '',
+        type: '',
+        name: '',
+        nameAccount: '',
+        ip: '',
+        password: '',
+        service: '',
+    });
     const handleTagRemove = (tag: string) => {
         setSelectedTags(selectedTags.filter((item) => item !== tag));
     };
     const handleDropdownSelect = (selectedOption: string) => {
         // console.log('Selected option:', selectedOption);
         // Xử lý lựa chọn tại đây
+    };
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
+        // setValue(event.target.value);
+        setGetInput({ ...getInput, [name]: event.target.value });
     };
 
     const navigate = useNavigate();
@@ -49,17 +73,17 @@ function AddDevices() {
                     <div className={styles.item}>
                         <label>Mã thiết bị: </label>
                         <i> *</i>
-                        <InputForm placeholder="Nhập họ và tên" />
+                        <InputForm placeholder="Nhập mã thiết bị" getValue={(e) => handleChange(e, 'code')} />
                     </div>
                     <div className={styles.item}>
                         <label>Tên thiết bị: </label>
                         <i> *</i>
-                        <InputForm placeholder="Nhập họ và tên" />
+                        <InputForm placeholder="Nhập tên thiết bị" getValue={(e) => handleChange(e, 'name')} />
                     </div>
                     <div className={styles.item}>
-                        <label>Đia chỉ thiết bị: </label>
+                        <label>Đia chỉ IP: </label>
                         <i> *</i>
-                        <InputForm placeholder="Nhập họ và tên" />
+                        <InputForm placeholder="Nhập địa chỉ IP" getValue={(e) => handleChange(e, 'ip')} />
                     </div>
                 </div>
                 <div className={styles['grid-item']}>
@@ -70,19 +94,21 @@ function AddDevices() {
                             placeholder="Loại thiết bị"
                             dropdownWidth="100%"
                             options={dropdownTypeDevices}
-                            onSelect={(selectedOption) => handleDropdownSelect(selectedOption)}
+                            onSelect={(selectedOption) => {
+                                handleDropdownSelect(selectedOption);
+                            }}
                         />
                     </div>
 
                     <div className={styles.item}>
                         <label>Tên đăng nhập: </label>
                         <i> *</i>
-                        <InputForm placeholder="Nhập họ và tên" />
+                        <InputForm placeholder="Nhập họ và tên" getValue={(e) => handleChange(e, 'nameAccount')} />
                     </div>
                     <div className={styles.item}>
                         <label>Mật khẩu: </label>
                         <i> *</i>
-                        <InputForm placeholder="Nhập họ và tên" />
+                        <InputForm placeholder="Nhập mật khẩu" getValue={(e) => handleChange(e, 'nameAccount')} />
                     </div>
                 </div>
                 <div className={styles['grid-item']}>

@@ -10,10 +10,15 @@ interface TagDropDownProps {
 const TagDropDown: React.FC<TagDropDownProps> = ({ placeholder, options }) => {
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState<string>('');
+    
+    const allOption = 'Tất cả';
+    const [selectedOption, setSelectedOption] = useState<string>(allOption);
+  
     const handleOptionSelect = (option: string) => {
         setSelectedOption(option);
-        if (!selectedTags.includes(option)) {
+        if (option === allOption) {
+            setSelectedTags(options); // Chọn tất cả các option
+        } else if (!selectedTags.includes(option)) {
             setSelectedTags([...selectedTags, option]);
         }
         setIsOpen(false);
@@ -41,6 +46,9 @@ const TagDropDown: React.FC<TagDropDownProps> = ({ placeholder, options }) => {
 
             {isOpen && (
                 <div className={styles.options}>
+                    <div className={styles.option} onClick={() => handleOptionSelect(allOption)}>
+                        {allOption}
+                    </div>
                     {options.map((option, index) => (
                         <div key={index} className={styles.option} onClick={() => handleOptionSelect(option)}>
                             {option}

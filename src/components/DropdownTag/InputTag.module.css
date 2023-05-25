@@ -51,6 +51,9 @@
     background: #fff;
     border-radius: 8px;
     width: 1104px;
+    max-height: 130px;
+    /* Đặt chiều cao tối đa của dropdown */
+    overflow-y: auto;
 }
 
 .option {
@@ -60,4 +63,14 @@
 
 .option:hover {
     background: #fff2e7;
+}
+
+.options::-webkit-scrollbar {
+    width: 4px;
+    height: 75px;
+}
+
+.options::-webkit-scrollbar-thumb {
+    background: #FFAC6A;
+    border-radius: 14px;
 }

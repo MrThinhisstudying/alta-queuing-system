@@ -14,6 +14,8 @@ import AddDevices from '../../components/Devices/AddDevices';
 import StyleDropDown from '../../components/DropDown/DropDown.module.css';
 import { ButtonOutline } from '../../components/ButtonOutline';
 import { Button } from '../../components';
+import { doc, setDoc } from 'firebase/firestore';
+import db from '../../config/firebase/firebase';
 
 const dropdownAction = ['Tất cả', 'Hoạt động', 'Ngưng hoạt động'];
 const dropdownConnect = ['Tất cả', 'Kết nối', 'Mất kết nối'];
@@ -57,6 +59,9 @@ export const Devices = () => {
     }, [getBreakScum]);
 
     const handleAddDevices = () => {
+        // ["thiết bi", "Danh sách thiết bi", "Thêm biết bị"]
+        // const getValueDisplay = getBreakScum[getBreakScum.length - 1] as { title: string; path: string };
+
         const item = {
             title: 'Thêm thiết bị',
             path: '/addServices',
@@ -121,12 +126,13 @@ export const Devices = () => {
         handeFilter();
     }, [handeFilter]);
 
-    const handleClickButton = () => {
-        const item = {
-            title: 'Danh sách thiết bị',
-            path: '/thietbi',
-        } as { title: string; path: string };
-        dispatch(addValue(item));
+    const handleClickButton = async () => {
+        // await setDoc(doc(db, 'devices', 'new-city-id'), data);
+        // const getValueDisplay = getBreakScum.filter((item) => {
+        //     return item.title !== 'Thêm thiết bị';
+        // }) as { title: string; path: string }[];
+        // console.log(getValueDisplay);
+        // dispatch(changeValue(getValueDisplay));
     };
 
     //Pagination
