@@ -14,7 +14,7 @@ import AddDevices from '../../components/Devices/AddDevices';
 import StyleDropDown from '../../components/DropDown/DropDown.module.css';
 import { ButtonOutline } from '../../components/ButtonOutline';
 import { Button } from '../../components';
-import { doc, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import db from '../../config/firebase/firebase';
 
 const dropdownAction = ['Tất cả', 'Hoạt động', 'Ngưng hoạt động'];
@@ -24,7 +24,7 @@ export const Devices = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const getBreakScum = useSelector((state: RootState) => state.breadcrumb.value);
-
+    const getValueInput = useSelector((state: RootState) => state.devices.new);
     const devicesState = useSelector((state: RootState) => state.devices.value);
     const devicesFilterState = useSelector((state: RootState) => state.devices.changeValueDevice);
     const isFilterState = useSelector((state: RootState) => state.devices.isFillter);
@@ -127,12 +127,7 @@ export const Devices = () => {
     }, [handeFilter]);
 
     const handleClickButton = async () => {
-        // await setDoc(doc(db, 'devices', 'new-city-id'), data);
-        // const getValueDisplay = getBreakScum.filter((item) => {
-        //     return item.title !== 'Thêm thiết bị';
-        // }) as { title: string; path: string }[];
-        // console.log(getValueDisplay);
-        // dispatch(changeValue(getValueDisplay));
+        const pushData = await setDoc(doc(db, 'devices', '4'), getValueInput);
     };
 
     //Pagination

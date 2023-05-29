@@ -7,14 +7,17 @@ interface InputFormProps {
 
 const InputForm: React.FC<InputFormProps> = ({ placeholder, getValue }) => {
     const [value, setValue] = useState('');
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
-    };
-
     return (
         <div className={styles.form}>
-            <input type="text" value={value} onChange={(e) => getValue(e)} placeholder={placeholder} />
+            <input
+                type="text"
+                value={value}
+                onChange={(e) => {
+                    setValue(e.target.value);
+                    getValue(e);
+                }}
+                placeholder={placeholder}
+            />
         </div>
     );
 };

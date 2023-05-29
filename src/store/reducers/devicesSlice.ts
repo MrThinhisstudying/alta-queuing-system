@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { collection, query, where, getDocs } from 'firebase/firestore';
 import db from '../../config/firebase/firebase';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface TableItem {
     id: number;
@@ -15,13 +15,25 @@ interface TableItem {
 type devicesState = {
     value: TableItem[];
     changeValueDevice: [];
+    new: TableItem;
+    work: String;
     isFillter: boolean;
 };
 
 const initialState: devicesState = {
     value: [],
+    new: {
+        id: 0,
+        code: '',
+        name: '',
+        ip: '',
+        statusAction: 'Ngưng hoạt động',
+        statusConnect: 'Mất kết nối',
+        service: '',
+    },
     changeValueDevice: [],
     isFillter: false,
+    work: '',
 };
 
 export const getDevices = async () => {
@@ -73,9 +85,23 @@ export const devices = createSlice({
         changeStatusFillter: (state, action) => {
             state.isFillter = action.payload;
         },
+        addValueInput: (state, action) => {
+            state.new = { ...state.new, [action.payload[0]]: action.payload[1] };
+        },
+        getValueWork: (state, action) => {
+            state.work = action.payload;
+        },
     },
 });
 
-export const { addDevicesValue, changeValue, clearValue, changeStatusFillter, fillterDevice } = devices.actions;
+export const {
+    addDevicesValue,
+    changeValue,
+    clearValue,
+    changeStatusFillter,
+    fillterDevice,
+    addValueInput,
+    getValueWork,
+} = devices.actions;
 
 export default devices.reducer;

@@ -7,6 +7,8 @@ import TagDropDown from '../DropdownTag';
 import { ButtonOutline } from '../ButtonOutline';
 import { Button } from '../Button';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addValueInput, getValueWork } from '../../store/reducers/devicesSlice';
 
 const dropdownTypeDevices = ['Kiosk', 'Display counter'];
 const tagOptions = [
@@ -33,6 +35,8 @@ interface Device {
 
 function AddDevices() {
     //Xử lý tag
+
+    const dispatch = useDispatch();
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const handleTagSelect = (tag: string) => {
         if (!selectedTags.includes(tag)) {
@@ -58,7 +62,14 @@ function AddDevices() {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
         // setValue(event.target.value);
-        setGetInput({ ...getInput, [name]: event.target.value });
+        console.log(name);
+        dispatch(addValueInput([name, event.target.value]));
+
+        // setGetInput({ ...getInput, [name]: event.target.value });
+    };
+    const getValue = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
+        dispatch(addValueInput([name, event.target.value]));
+        dispatch(getValueWork(event.target.value));
     };
 
     const navigate = useNavigate();
