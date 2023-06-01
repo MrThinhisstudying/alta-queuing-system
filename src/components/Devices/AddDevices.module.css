@@ -54,3 +54,15 @@
 .item i {
     color: #FF4747;
 }
+
+.btnAdd {
+    position: absolute;
+    display: flex;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 200%);
+}
+
+.marginRight35 {
+    margin-right: 35px;
+}

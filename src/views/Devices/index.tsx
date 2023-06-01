@@ -24,10 +24,10 @@ export const Devices = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const getBreakScum = useSelector((state: RootState) => state.breadcrumb.value);
-    const getValueInput = useSelector((state: RootState) => state.devices.new);
     const devicesState = useSelector((state: RootState) => state.devices.value);
     const devicesFilterState = useSelector((state: RootState) => state.devices.changeValueDevice);
     const isFilterState = useSelector((state: RootState) => state.devices.isFillter);
+    const [selectedDevice, setSelectedDevice] = useState(null);
     const [fillter, setFillter] = useState({
         status: 'Tất cả',
         type: 'Tất cả',
@@ -59,9 +59,6 @@ export const Devices = () => {
     }, [getBreakScum]);
 
     const handleAddDevices = () => {
-        // ["thiết bi", "Danh sách thiết bi", "Thêm biết bị"]
-        // const getValueDisplay = getBreakScum[getBreakScum.length - 1] as { title: string; path: string };
-
         const item = {
             title: 'Thêm thiết bị',
             path: '/addServices',
@@ -75,8 +72,6 @@ export const Devices = () => {
     };
 
     const handleDropdownSelect = (selectedOption: String, kind: string) => {
-        // console.log('Selected option:', selectedOption);
-        // Xử lý lựa chọn tại đây
         setFillter({ ...fillter, [kind]: selectedOption });
     };
 
@@ -126,10 +121,6 @@ export const Devices = () => {
         handeFilter();
     }, [handeFilter]);
 
-    const handleClickButton = async () => {
-        const pushData = await setDoc(doc(db, 'devices', '4'), getValueInput);
-    };
-
     //Pagination
     const [currentPage, setCurrentPage] = useState(1);
     const totalPages = 10;
@@ -138,7 +129,6 @@ export const Devices = () => {
         // Xử lý thay đổi trang ở đây (gọi API, cập nhật dữ liệu, vv.)
         setCurrentPage(pageNumber);
     };
-
     return (
         <div className={styles.container}>
             {displayPage === 'Danh sách thiết bị' && (
@@ -212,21 +202,6 @@ export const Devices = () => {
                     <div className={styles.wrapper}>
                         <h3>Thông tin thiết bị</h3>
                         <AddDevices />
-                        <div className={styles.btnAdd}>
-                            <div className={styles.marginRight35}>
-                                <ButtonOutline
-                                    text="Hủy bỏ"
-                                    handleClick={() => {
-                                        const item = {
-                                            title: 'Danh sách thiết bị',
-                                            path: '/thietbi',
-                                        } as { title: string; path: string };
-                                        dispatch(addValue(item));
-                                    }}
-                                />
-                            </div>
-                            <Button text="Thêm thiết bị" handleClick={handleClickButton} />
-                        </div>
                     </div>
                 </React.Fragment>
             )}

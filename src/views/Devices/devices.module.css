@@ -105,15 +105,3 @@
     line-height: 30px;
     color: #FF7506;
 }
-
-.btnAdd {
-    position: absolute;
-    display: flex;
-    left: 50%;
-    bottom: 0;
-    transform: translate(-50%, 200%);
-}
-
-.marginRight35 {
-    margin-right: 35px;
-}

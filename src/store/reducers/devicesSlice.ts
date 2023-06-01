@@ -1,39 +1,41 @@
 import db from '../../config/firebase/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface TableItem {
     id: number;
     code: string;
+    type: string;
     name: string;
+    password: string;
     ip: string;
     statusAction: string;
     statusConnect: string;
     service: string;
 }
 
-type devicesState = {
+type DevicesState = {
     value: TableItem[];
     changeValueDevice: [];
     new: TableItem;
-    work: String;
     isFillter: boolean;
 };
 
-const initialState: devicesState = {
+const initialState: DevicesState = {
     value: [],
     new: {
         id: 0,
         code: '',
+        type: '',
         name: '',
+        password: '',
         ip: '',
-        statusAction: 'Ngưng hoạt động',
-        statusConnect: 'Mất kết nối',
+        statusAction: '',
+        statusConnect: '',
         service: '',
     },
     changeValueDevice: [],
     isFillter: false,
-    work: '',
 };
 
 export const getDevices = async () => {
@@ -41,7 +43,7 @@ export const getDevices = async () => {
     const q = collection(db, 'devices');
 
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
+    querySnapshot.docs.map((doc) => {
         // console.log(doc.id, ' => ', doc.data());
         const value = doc.data() as {
             code: string;
@@ -82,26 +84,16 @@ export const devices = createSlice({
         fillterDevice: (state, action) => {
             state.changeValueDevice = action.payload;
         },
-        changeStatusFillter: (state, action) => {
+        changeStatusFillter: (state, action: PayloadAction<boolean>) => {
             state.isFillter = action.payload;
         },
-        addValueInput: (state, action) => {
+        addValueInput: (state, action: PayloadAction<[string, any]>) => {
             state.new = { ...state.new, [action.payload[0]]: action.payload[1] };
-        },
-        getValueWork: (state, action) => {
-            state.work = action.payload;
         },
     },
 });
 
-export const {
-    addDevicesValue,
-    changeValue,
-    clearValue,
-    changeStatusFillter,
-    fillterDevice,
-    addValueInput,
-    getValueWork,
-} = devices.actions;
+export const { addDevicesValue, changeValue, clearValue, changeStatusFillter, fillterDevice, addValueInput } =
+    devices.actions;
 
 export default devices.reducer;

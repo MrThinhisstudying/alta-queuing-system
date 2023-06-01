@@ -5,15 +5,14 @@ import TagItem from '../TagItem';
 interface TagDropDownProps {
     placeholder: string;
     options: string[];
+    onSelect: (selectedTags: string) => void;
 }
 
-const TagDropDown: React.FC<TagDropDownProps> = ({ placeholder, options }) => {
+const TagDropDown: React.FC<TagDropDownProps> = ({ placeholder, options, onSelect }) => {
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [isOpen, setIsOpen] = useState(false);
-    
     const allOption = 'Tất cả';
     const [selectedOption, setSelectedOption] = useState<string>(allOption);
-  
     const handleOptionSelect = (option: string) => {
         setSelectedOption(option);
         if (option === allOption) {
@@ -21,13 +20,12 @@ const TagDropDown: React.FC<TagDropDownProps> = ({ placeholder, options }) => {
         } else if (!selectedTags.includes(option)) {
             setSelectedTags([...selectedTags, option]);
         }
+        onSelect(option);
         setIsOpen(false);
     };
-
     const handleTagRemove = (tag: string) => {
         setSelectedTags(selectedTags.filter((item) => item !== tag));
     };
-
     return (
         <div className={styles.tagDropDown}>
             <div className={`${styles.toggle} ${isOpen ? styles.open : ''}`} onClick={() => setIsOpen(!isOpen)}>
