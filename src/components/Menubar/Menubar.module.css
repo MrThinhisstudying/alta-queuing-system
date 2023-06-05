@@ -82,17 +82,17 @@
 /* Submenu */
 
 .submenu {
+    z-index: 100;
     position: absolute;
     display: flex;
     flex-direction: column;
     width: 200px;
     height: 144px;
-    left: 226px;
+    left: 440px;
     top: 52%;
     background: white;
     border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
-    display: none;
 }
 
 .submenu>div {

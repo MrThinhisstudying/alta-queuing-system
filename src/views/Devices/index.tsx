@@ -33,6 +33,14 @@ export const Devices = () => {
         type: 'Tất cả',
     });
     const [displayPage, setDisplayPage] = useState<string>('Danh sách thiết bị');
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const PER_PAGE = 8;
+    const offset = currentPage * PER_PAGE;
+    const pageCount = () => {
+        const count = Math.ceil(devicesState.length / PER_PAGE);
+        return count;
+    };
 
     useEffect(() => {
         if (location.pathname === '/thietbi') {
@@ -122,8 +130,6 @@ export const Devices = () => {
     }, [handeFilter]);
 
     //Pagination
-    const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = 10;
 
     const handlePageChange = (pageNumber: number) => {
         // Xử lý thay đổi trang ở đây (gọi API, cập nhật dữ liệu, vv.)
@@ -166,7 +172,11 @@ export const Devices = () => {
                         <div className={styles.table}>
                             <Table
                                 // data={tableData}
-                                data={isFilterState === false ? devicesState : devicesFilterState}
+                                data={
+                                    isFilterState === false
+                                        ? devicesState.slice(offset, offset + PER_PAGE)
+                                        : devicesFilterState
+                                }
                             />
                         </div>
                         <div className={styles.btnCustom}>
@@ -191,7 +201,11 @@ export const Devices = () => {
                         </div>
                     </div>
                     <div className={styles.pagination}>
-                        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={pageCount()}
+                            onPageChange={handlePageChange}
+                        />
                     </div>
                 </React.Fragment>
             )}
@@ -210,9 +224,13 @@ export const Devices = () => {
                     <h2>Quản lý thiết bị</h2>
                 </React.Fragment>
             )}
-            {displayPage === 'Cập nhật' && (
+            {displayPage === 'Cập nhật thiết bị' && (
                 <React.Fragment>
                     <h2>Quản lý thiết bị</h2>
+                    <div className={styles.wrapper}>
+                        <h3>Thông tin thiết bị</h3>
+                        <AddDevices />
+                    </div>
                 </React.Fragment>
             )}
         </div>

@@ -3,19 +3,20 @@ import Button from '../../ButtonTable';
 import styles from './Table.module.css';
 import { addValue } from '../../../store/reducers/breadcrumbSlice';
 import { useDispatch } from 'react-redux';
+import { TableItem, updateDevice } from '../../../store/reducers/devicesSlice';
 interface TableRowProps {
     item: TableItem;
 }
 
-interface TableItem {
-    id: number;
-    code: string;
-    name: string;
-    ip: string;
-    statusAction: string;
-    statusConnect: string;
-    service: string;
-}
+// interface TableItem {
+//     id: number;
+//     code: string;
+//     name: string;
+//     ip: string;
+//     statusAction: string;
+//     statusConnect: string;
+//     service: string;
+// }
 
 const TableRowDevices: React.FC<TableRowProps> = ({ item }) => {
     const [showPopup, setShowPopup] = useState(false);
@@ -49,12 +50,14 @@ const TableRowDevices: React.FC<TableRowProps> = ({ item }) => {
         dispatch(addValue(item));
     };
 
-    const handleUpdate = () => {
+    const handleUpdate = (value: TableItem) => {
+        console.log(value);
         const item = {
             title: 'Cập nhật thiết bị',
             path: '/updateServices',
         } as { title: string; path: string };
         dispatch(addValue(item));
+        dispatch(updateDevice(value));
         // Xử lý logic khi bấm vào Cập nhật
     };
 
@@ -92,7 +95,7 @@ const TableRowDevices: React.FC<TableRowProps> = ({ item }) => {
                 <Button onClick={handleDetail} text="Chi tiết" />
             </td>
             <td>
-                <Button onClick={handleUpdate} text="Cập nhật" />
+                <Button onClick={() => handleUpdate(item)} text="Cập nhật" />
             </td>
         </tr>
     );

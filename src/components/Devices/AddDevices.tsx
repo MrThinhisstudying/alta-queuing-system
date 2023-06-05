@@ -8,10 +8,10 @@ import { ButtonOutline } from '../ButtonOutline';
 import { Button } from '../Button';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addValueInput } from '../../store/reducers/devicesSlice';
+import { TableItem, addDevicesValue, addValueInput, updateValue } from '../../store/reducers/devicesSlice';
 import { RootState } from '../../store/store';
 import { changeValue } from '../../store/reducers/breadcrumbSlice';
-import { setDoc, doc } from 'firebase/firestore';
+import { setDoc, doc, addDoc, collection } from 'firebase/firestore';
 import db from '../../config/firebase/firebase';
 import { Tag } from 'antd';
 
@@ -41,24 +41,36 @@ interface Device {
 function AddDevices() {
     //Xử lý tag
     const getBreakScum = useSelector((state: RootState) => state.breadcrumb.value);
+    const dbDevices = useSelector((state: RootState) => state.devices.value);
     const dispatch = useDispatch();
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const getValueInput = useSelector((state: RootState) => state.devices.new);
 
-    const [getInput, setGetInput] = useState<Device>({
+    const [getInput, setGetInput] = useState<TableItem>({
+        id: '',
         code: '',
         type: '',
         name: '',
-        nameAccount: '',
-        ip: '',
         password: '',
+        ip: '',
+        statusAction: '',
+        statusConnect: '',
         service: '',
     });
     const handleTagRemove = (tag: string) => {
         setSelectedTags(selectedTags.filter((item) => item !== tag));
     };
     const handleTagSelect = (selected: string) => {
-        setSelectedTags([...selectedTags, selected]);
+        if (selected.includes('Tất cả')) {
+            return setGetInput({ ...getInput, service: tagOptions.toString() });
+        }
+        if (getInput.service === '') {
+            setGetInput({ ...getInput, service: selected });
+        } else {
+            const addservice = `${getInput.service}, ${selected}`;
+            setGetInput({ ...getInput, service: addservice });
+        }
+        // setSelectedTags([...selectedTags, selected]);
     };
     const handleDropdownSelect = (selectedOption: string) => {
         dispatch(addValueInput([selectedOption, null]));
@@ -71,8 +83,8 @@ function AddDevices() {
     const getValue = (event: string, name: string) => {
         dispatch(addValueInput([name, event]));
     };
-    const statusAction = Math.random() < 0.5 ? 'Hoạt động' : 'Không hoạt động';
-    const statusConnect = Math.random() < 0.5 ? 'Kết nối' : 'Ngưng hoạt động';
+    const statusAction = Math.random() < 0.5 ? 'Hoạt động' : 'Ngưng hoạt động';
+    const statusConnect = Math.random() < 0.5 ? 'Kết nối' : 'Mất kết nối';
 
     const handleClickButton = async () => {
         console.log(selectedTags);
@@ -80,20 +92,27 @@ function AddDevices() {
         try {
             // Tạo một đối tượng mới từ thông tin nhập vào
             const newDevice = {
+                id: getInput.id,
                 code: getInput.code,
                 type: getInput.type,
                 name: getInput.name,
-                nameAccount: getInput.nameAccount,
                 ip: getInput.ip,
                 password: getInput.password,
-                service: selectedTags,
+                service: getInput.service,
                 statusAction: statusAction,
                 statusConnect: statusConnect,
-            };
+            } as TableItem;
+
+            console.log(newDevice);
 
             // Thêm đối tượng vào cơ sở dữ liệu Firebase
-            await setDoc(doc(db, 'devices', newDevice.code), newDevice);
+            const addDevice = await addDoc(collection(db, 'devices'), newDevice);
             console.log('Thêm thiết bị thành công');
+
+            // Lay mang value
+            const device = { ...newDevice, id: addDevice.id };
+            // push() du lieu moi vao
+            dispatch(updateValue(device));
             handleCancel();
 
             // Sau khi thêm thành công, bạn có thể thực hiện các hành động khác (ví dụ: chuyển hướng, hiển thị thông báo)

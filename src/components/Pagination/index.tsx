@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Pagination.module.css';
 type PaginationProps = {
     currentPage: number;
@@ -7,8 +7,17 @@ type PaginationProps = {
 };
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+    const checkActive = (page: number) => {
+        console.log(page);
+
+        if (currentPage === page) return true;
+        return false;
+    };
+
     const handlePageChange = (pageNumber: number) => {
         // Gọi hàm onPageChange để thông báo về trang được chọn
+        console.log(currentPage);
+        if (pageNumber > 0) return onPageChange(pageNumber - 1);
         onPageChange(pageNumber);
     };
     // `${styles.toggle} ${isIconRotated ? styles['rotated'] : ''}`;
@@ -30,7 +39,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
             // Hiển thị tất cả các số trang
             for (let i = 1; i <= totalPages; i++) {
                 pageNumbers.push(
-                    <li key={i} className={currentPage === i ? 'active' : ''} onClick={() => handlePageChange(i)}>
+                    <li key={i} className={checkActive(i - 1) ? styles.active : ''} onClick={() => handlePageChange(i)}>
                         {i}
                     </li>,
                 );

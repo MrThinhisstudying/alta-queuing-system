@@ -1,20 +1,21 @@
 import React from 'react';
 import TableRow from './TableRowDevices';
 import styles from './Table.module.css';
+import { TableItem } from '../../../store/reducers/devicesSlice';
 
 interface TableProps {
     data: TableItem[];
 }
 
-interface TableItem {
-    id: number;
-    code: string;
-    name: string;
-    ip: string;
-    statusAction: string;
-    statusConnect: string;
-    service: string;
-}
+// interface TableItem {
+//     id: number;
+//     code: string;
+//     name: string;
+//     ip: string;
+//     statusAction: string;
+//     statusConnect: string;
+//     service: string;
+// }
 
 const TableDevices: React.FC<TableProps> = ({ data }) => {
     return (

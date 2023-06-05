@@ -248,6 +248,7 @@ const checkIsSelect = (array: stateModel[], text: string) => {
 
 export const Menubar = (props: MenuBarProps) => {
     const navigate = useNavigate();
+    const [isClickSetting, setIsClickSetting] = useState<boolean>(false);
     const state = useSelector((state: RootState) => state.breadcrumb.value);
 
     const [selected, setSelected] = useState<string | null>(null);
@@ -257,8 +258,10 @@ export const Menubar = (props: MenuBarProps) => {
     }, [state]);
 
     const handleClick = (array: stateModel[], text: string) => {
-        if (checkIsSelect(array, text)) return setSelected(text);
-        else return setSelected(null);
+        if (checkIsSelect(array, text)) {
+            setSelected(text);
+            setIsClickSetting(false);
+        } else return setSelected(null);
     };
 
     return (
@@ -281,7 +284,13 @@ export const Menubar = (props: MenuBarProps) => {
                         </div>
                     ))}
 
-                    <div className={styles.btn}>
+                    <div
+                        className={isClickSetting ? styles.btnActive : styles.btn}
+                        onClick={() => {
+                            setIsClickSetting(!isClickSetting);
+                            setSelected(null);
+                        }}
+                    >
                         <i>
                             <svg
                                 width="20"
@@ -335,17 +344,20 @@ export const Menubar = (props: MenuBarProps) => {
                         </i>
                     </div>
                 </div>
-                <div className={styles.submenu}>
-                    <div className={styles.btn}>
-                        <p>Quản lý vai trò</p>
+
+                {isClickSetting && (
+                    <div className={styles.submenu}>
+                        <div className={styles.btn}>
+                            <p>Quản lý vai trò</p>
+                        </div>
+                        <div className={styles.btn}>
+                            <p>Quản lý tài khoản</p>
+                        </div>
+                        <div className={styles.btn}>
+                            <p>Quản lý người dùng</p>
+                        </div>
                     </div>
-                    <div className={styles.btn}>
-                        <p>Quản lý tài khoản</p>
-                    </div>
-                    <div className={styles.btn}>
-                        <p>Quản lý người dùng</p>
-                    </div>
-                </div>
+                )}
             </div>
 
             <div className={styles.logoutBtn} onClick={() => navigate('/')}>

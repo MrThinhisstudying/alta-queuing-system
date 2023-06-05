@@ -2,8 +2,8 @@ import db from '../../config/firebase/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-interface TableItem {
-    id: number;
+export interface TableItem {
+    id: string;
     code: string;
     type: string;
     name: string;
@@ -18,13 +18,14 @@ type DevicesState = {
     value: TableItem[];
     changeValueDevice: [];
     new: TableItem;
+    update: TableItem;
     isFillter: boolean;
 };
 
 const initialState: DevicesState = {
     value: [],
     new: {
-        id: 0,
+        id: '',
         code: '',
         type: '',
         name: '',
@@ -36,6 +37,17 @@ const initialState: DevicesState = {
     },
     changeValueDevice: [],
     isFillter: false,
+    update: {
+        id: '',
+        code: '',
+        type: '',
+        name: '',
+        password: '',
+        ip: '',
+        statusAction: '',
+        statusConnect: '',
+        service: '',
+    },
 };
 
 export const getDevices = async () => {
@@ -54,7 +66,7 @@ export const getDevices = async () => {
             service: string;
         };
         res.push({
-            id: Number.parseInt(doc.id),
+            id: doc.id,
             code: value.code,
             ip: value.ip,
             name: value.name,
@@ -90,10 +102,24 @@ export const devices = createSlice({
         addValueInput: (state, action: PayloadAction<[string, any]>) => {
             state.new = { ...state.new, [action.payload[0]]: action.payload[1] };
         },
+        updateValue: (state, action) => {
+            state.value = [...state.value, action.payload];
+        },
+        updateDevice: (state, action) => {
+            state.update = action.payload;
+        },
     },
 });
 
-export const { addDevicesValue, changeValue, clearValue, changeStatusFillter, fillterDevice, addValueInput } =
-    devices.actions;
+export const {
+    addDevicesValue,
+    changeValue,
+    clearValue,
+    changeStatusFillter,
+    fillterDevice,
+    addValueInput,
+    updateValue,
+    updateDevice,
+} = devices.actions;
 
 export default devices.reducer;
