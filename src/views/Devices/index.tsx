@@ -16,6 +16,8 @@ import { ButtonOutline } from '../../components/ButtonOutline';
 import { Button } from '../../components';
 import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import db from '../../config/firebase/firebase';
+import { Detail } from '../../components/Devices/DetailDevices';
+import UpdateDevices from '../../components/Devices/UpdateDevices';
 
 const dropdownAction = ['Tất cả', 'Hoạt động', 'Ngưng hoạt động'];
 const dropdownConnect = ['Tất cả', 'Kết nối', 'Mất kết nối'];
@@ -222,6 +224,7 @@ export const Devices = () => {
             {displayPage === 'Chi tiết thiết bị' && (
                 <React.Fragment>
                     <h2>Quản lý thiết bị</h2>
+                    <Detail />
                 </React.Fragment>
             )}
             {displayPage === 'Cập nhật thiết bị' && (
@@ -229,7 +232,7 @@ export const Devices = () => {
                     <h2>Quản lý thiết bị</h2>
                     <div className={styles.wrapper}>
                         <h3>Thông tin thiết bị</h3>
-                        <AddDevices />
+                        <UpdateDevices />
                     </div>
                 </React.Fragment>
             )}

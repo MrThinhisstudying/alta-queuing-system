@@ -1,5 +1,5 @@
 import db from '../../config/firebase/firebase';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, onSnapshot, query, where } from 'firebase/firestore';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface TableItem {
@@ -78,6 +78,43 @@ export const getDevices = async () => {
     // console.log(res);
 
     return res;
+};
+
+export const fetchDevices = () => {
+    return async (dispatch: any) => {
+        try {
+            const devicesCollection = collection(db, 'devices');
+            const devicesSnapshot = await getDocs(devicesCollection);
+            const devicesList = devicesSnapshot.docs.map(
+                (doc) =>
+                    ({
+                        id: doc.id,
+                        ...doc.data(),
+                    } as TableItem),
+            );
+            dispatch(addDevicesValue(devicesList));
+        } catch (error) {
+            console.error('Lỗi khi lấy dữ liệu thiết bị:', error);
+        }
+    };
+};
+
+export const subscribeToDevices = () => {
+    return (dispatch: any) => {
+        const devicesCollection = collection(db, 'devices');
+        const unsubscribe = onSnapshot(devicesCollection, (snapshot) => {
+            const devicesList = snapshot.docs.map(
+                (doc) =>
+                    ({
+                        id: doc.id,
+                        ...doc.data(),
+                    } as TableItem),
+            );
+            dispatch(addDevicesValue(devicesList));
+        });
+        // Return the unsubscribe function in case you want to stop listening to updates
+        return unsubscribe;
+    };
 };
 
 export const devices = createSlice({
