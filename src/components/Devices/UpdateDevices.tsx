@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './UpdateDevices.module.css';
 import InputForm from '../InputForm';
 import DropDown from '../DropDown';
@@ -8,10 +8,10 @@ import { ButtonOutline } from '../ButtonOutline';
 import { Button } from '../Button';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { TableItem, addDevicesValue, addValueInput, updateValue } from '../../store/reducers/devicesSlice';
+import { TableItem, addDevicesValue, addValueInput, devices, updateValue } from '../../store/reducers/devicesSlice';
 import { RootState } from '../../store/store';
 import { changeValue } from '../../store/reducers/breadcrumbSlice';
-import { setDoc, doc, addDoc, collection, getDocs } from 'firebase/firestore';
+import { setDoc, doc, addDoc, collection } from 'firebase/firestore';
 import db from '../../config/firebase/firebase';
 import { Tag } from 'antd';
 
@@ -61,27 +61,31 @@ function UpdateDevices() {
         setSelectedTags(selectedTags.filter((item) => item !== tag));
     };
     const handleTagSelect = (selected: string) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            selected: selected,
-        }));
+        if (selected.includes('Tất cả')) {
+            return setGetInput({ ...getInput, service: tagOptions.toString() });
+        }
+        if (getInput.service === '') {
+            setGetInput({ ...getInput, service: selected });
+        } else {
+            const addservice = `${getInput.service}, ${selected}`;
+            setGetInput({ ...getInput, service: addservice });
+        }
+        // setSelectedTags([...selectedTags, selected]);
     };
     const handleDropdownSelect = (selectedOption: string) => {
         dispatch(addValueInput([selectedOption, null]));
     };
 
-    const handleChange = (value: string, fieldName: string) => {
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            [fieldName]: value,
-        }));
+    const handleChange = (event: string, name: string) => {
+        console.log(event);
+        setGetInput({ ...getInput, [name]: event });
     };
     const getValue = (event: string, name: string) => {
         dispatch(addValueInput([name, event]));
     };
     const statusAction = Math.random() < 0.5 ? 'Hoạt động' : 'Ngưng hoạt động';
     const statusConnect = Math.random() < 0.5 ? 'Kết nối' : 'Mất kết nối';
-    const [devicesData, setDevicesData] = useState<Device[]>([]);
+
     const handleClickButton = async () => {
         console.log(selectedTags);
 
@@ -125,31 +129,6 @@ function UpdateDevices() {
         });
         dispatch(changeValue(back));
     };
-    // const [devicesData, setDevicesData] = useState([]);
-
-    useEffect(() => {
-        const fetchDevicesData = async () => {
-            try {
-                const devicesCollection = collection(db, 'devices');
-                const devicesSnapshot = await getDocs(devicesCollection);
-                const devicesList = devicesSnapshot.docs.map((doc) => doc.data() as Device);
-                setDevicesData(devicesList);
-            } catch (error) {
-                console.error('Lỗi khi lấy dữ liệu thiết bị:', error);
-            }
-        };
-        fetchDevicesData();
-    }, []);
-    const [formData, setFormData] = useState({
-        code: '',
-        name: '',
-        ip: '',
-        type: '',
-        nameAccount: '',
-        password: '',
-        selectedTags: [],
-    });
-
     return (
         <div className={styles.wrapper}>
             <div className={styles.grid}>
@@ -234,7 +213,7 @@ function UpdateDevices() {
                         }}
                     />
                 </div>
-                <Button text="Cập nhật" handleClick={handleClickButton} />
+                <Button text="Thêm thiết bị" handleClick={handleClickButton} />
             </div>
         </div>
     );
